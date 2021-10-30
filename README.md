@@ -19,6 +19,5 @@
 
 4. Desktop app
 
-5. Integration and Testing
+5. Visual Dashboard
 
-6. Other Addons.
