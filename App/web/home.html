@@ -1,0 +1,132 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/eel.js"></script>
+    <link rel="stylesheet" type="text/css"href="css/css-main.css">
+
+    <title>Face Detection</title>
+</head>
+
+<body>
+    <nav id="nav" class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Live Recognition Session!</a>
+        <button type="button" id="adduserbtn" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#adduser">
+            <img src="images/add-user.svg"></img>
+             Add User
+        </button>
+        <button type="button" id="disptodaylistbtn" onclick="list_click()" class="btn btn-dark ml-5" data-toggle="modal" data-target="#disptodaylist">
+          <img id='list-icon' src="images/list.png"></img>
+           Today Entry List
+      </button>
+      <button type="button" onclick="dashboard_view()" class="btn btn-dark ml-5" ><img id='dash-icon' src="images/dashboard-icon.png"></img>&nbsp;DashBoard</button>
+        <button type="button" class="btn btn-danger ml-5" id="logout">
+          <img id='logout-icon' src="images/logout.svg"></img>
+          Logout
+      </button>
+    </nav>
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 px-5">
+            <div class="pt-2">
+              <div class="text-center">
+                <button type="button" class="btn btn-primary" style="display: inline-block;" onclick="call_python()">Start Camera</button>
+                <div class="d-flex justify-content-center flex-row bd-highlight mt-3">
+                  <div class="p-2 bd-highlight"><img src="images/record-icon.svg" alt="Avatar" id="record-icon"></div>
+                  <div class="p-2 bd-highlight"><h4 id='st' class="resp-text" style="display: inline;" ></h4></div>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-md-6 px-5 ">
+                <div class="pt-2">
+                  <div class="text-center">
+                    <button type="button" class="btn btn-danger" onclick="testsync()">Stop Camera</button>
+                    <div class="d-flex justify-content-center flex-row bd-highlight mt-3">
+                      <div class="p-2 bd-highlight"><img src="images/stop-icon.png" alt="Avatar" id="stop-icon"></div>
+                      <div class="p-2 bd-highlight"><h3 id='syn' class="resp-text" ></h3></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+    <div class="container-2">
+
+        <div class="col-sm d-flex justify-content-center">
+            <div class="card " style="width: 18rem;">
+                <div class="card-header bg-dark text-white">
+                  Active Entries
+                </div>
+                <ul class="list-group list-group-flush">
+                    <div id="list-wrapper"></div>	
+                </ul>
+            </div>
+         </div>
+    </div>
+
+
+
+    <div class="modal fade" id="adduser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Employee</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id='modal-body'>
+              <form id='add-user'>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Name:</label>
+                  <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+                <!-- /div>
+                <!div class="form-group" -->
+                  <label for="exampleInputPassword1">Role</label>
+                  <input type="text" class="form-control" name="userrole">
+                  <label for="exampleInputPassword1">Department</label>
+                  <select class="form-control" id="deptselect" name="userdept" aria-label="Default select example">
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id='submit-user'>Upload image</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="modal fade" id="disptodaylist"  tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" >Today's Entries</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id='modal-body'>
+              <table class="table table-striped">
+                <thead>
+                  <tr class="bg-primary">
+                    <th class="headfont" scope="col">Employee ID</th>
+                    <th class="headfont" scope="col">Entry Time</th>
+                  </tr>
+                </thead>
+                <tbody id="list-wrapper-today">
+                
+              </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
