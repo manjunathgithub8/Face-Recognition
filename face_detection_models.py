@@ -1,4 +1,5 @@
 #this is a python code to test and conclude best performing face detection model
+# we used dlib's HOG model for this Project.
 
 import dlib
 import cv2
